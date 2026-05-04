@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { QuoteCartProvider } from "@/components/QuoteCart";
 import { CartDrawer } from "@/components/CartDrawer";
 import { BackToTop } from "@/components/BackToTop";
+import { DemoPill } from "@/components/DemoPill";
 import "./globals.css";
 
 const inter = Inter({
@@ -56,9 +57,10 @@ export const metadata: Metadata = {
     description: SITE.description,
   },
   robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: { index: false, follow: false },
   },
 };
 
@@ -92,6 +94,7 @@ export default function RootLayout({
       className={`${inter.variable} ${sora.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-canvas text-ink">
+        <DemoPill realUrl="https://www.bndtrentals.com" />
         <QuoteCartProvider>
           <a href="#main" className="skip-link">Skip to content</a>
           <SiteHeader />
