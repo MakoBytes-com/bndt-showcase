@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
 import { SITE } from "@/lib/site";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -9,18 +8,18 @@ import { BackToTop } from "@/components/BackToTop";
 import { DemoPill } from "@/components/DemoPill";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const sora = Sora({
-  variable: "--font-display",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["500", "600", "700", "800"],
-});
+// Fonts are loaded at runtime via a <link> to Google Fonts (see <head> below)
+// rather than next/font/google. next/font downloads the font files from Google
+// *at build time*, which makes `next build` fail whenever a CI runner cannot
+// reach Google Fonts — an intermittent, ~30% failure that never hit Vercel's
+// build (its egress is reliable). The runtime stylesheet keeps the build
+// hermetic. The site's CSP (next.config.ts) already allows fonts.googleapis.com
+// and fonts.gstatic.com for exactly this. The --font-inter / --font-display CSS
+// variables consumed by globals.css are supplied on <html> below.
+const fontVariables = {
+  "--font-inter": "Inter",
+  "--font-display": "Sora",
+} as React.CSSProperties;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -89,11 +88,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${sora.variable} h-full`}
-    >
+    <html lang="en" className="h-full" style={fontVariables}>
       <body className="min-h-full flex flex-col bg-canvas text-ink">
+        {/* Runtime font stylesheet. React hoists these <link>s into <head>.
+            CSP (next.config.ts) already permits fonts.googleapis.com/gstatic.com. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Sora:wght@500;600;700;800&display=swap"
+        />
         <DemoPill realUrl="https://www.bndtrentals.com" />
         <QuoteCartProvider>
           <a href="#main" className="skip-link">Skip to content</a>
