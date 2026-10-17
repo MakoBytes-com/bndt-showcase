@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "./Container";
+import { FooterCopyright } from "./Copyright";
 import { LOCATIONS, NAV_EQUIPMENT, NAV_PRIMARY, SITE } from "@/lib/site";
 
 export function SiteFooter() {
@@ -102,6 +103,7 @@ export function SiteFooter() {
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link href="/terms" className="hover:text-white">Terms & Conditions</Link>
             <Link href="/privacy" className="hover:text-white">Privacy</Link>
+            <Link href="/license" className="hover:text-white">License &amp; Copyright</Link>
             <a
               href="https://makoai.studio"
               target="_blank"
@@ -112,6 +114,8 @@ export function SiteFooter() {
             </a>
           </div>
         </div>
+
+        <FooterCopyright />
       </Container>
     </footer>
   );

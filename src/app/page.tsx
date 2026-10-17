@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/Container";
+import { HeroCopyrightNotice } from "@/components/Copyright";
 import { CATEGORIES, totalProductCount } from "@/lib/equipment";
 import { LOCATIONS, SITE } from "@/lib/site";
 
@@ -130,6 +131,8 @@ export default function HomePage() {
             <span>Magnaflux</span>
           </Container>
         </div>
+
+        <HeroCopyrightNotice />
       </section>
 
       {/* THREE PILLARS */}

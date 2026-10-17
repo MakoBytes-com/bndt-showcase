@@ -7,6 +7,13 @@ import { QuoteCartProvider } from "@/components/QuoteCart";
 import { CartDrawer } from "@/components/CartDrawer";
 import { BackToTop } from "@/components/BackToTop";
 import { DemoPill } from "@/components/DemoPill";
+import {
+  COPYRIGHT_LINE,
+  COPYRIGHT_NOTICE,
+  COPYRIGHT_OWNER,
+  COPYRIGHT_YEAR,
+  THIRD_PARTY_NOTICE,
+} from "@/components/Copyright";
 import "./globals.css";
 
 const inter = Inter({
@@ -41,7 +48,10 @@ export const metadata: Metadata = {
     "Texas NDT",
     "Olympus Eddyfi Niton rental",
   ],
-  authors: [{ name: SITE.name }],
+  authors: [{ name: COPYRIGHT_OWNER, url: "https://makoai.studio" }],
+  creator: COPYRIGHT_OWNER,
+  publisher: COPYRIGHT_OWNER,
+  other: { copyright: COPYRIGHT_LINE },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -64,8 +74,30 @@ export const metadata: Metadata = {
   },
 };
 
+// The demo's own design and code belong to Mako Logics LLC; the business it depicts is
+// Burton NDT Rentals. Both appear in the graph so neither claim is confused for the other.
+const copyrightHolder = {
+  "@type": "Organization",
+  "@id": `${SITE.url}#copyright-holder`,
+  name: COPYRIGHT_OWNER,
+  url: "https://makoai.studio",
+};
+
+const websiteSchema = {
+  "@type": "WebSite",
+  "@id": `${SITE.url}#website`,
+  url: SITE.url,
+  name: `${SITE.name} (portfolio demo by ${COPYRIGHT_OWNER})`,
+  about: { "@id": `${SITE.url}#organization` },
+  creator: { "@id": copyrightHolder["@id"] },
+  publisher: { "@id": copyrightHolder["@id"] },
+  copyrightHolder: { "@id": copyrightHolder["@id"] },
+  copyrightYear: COPYRIGHT_YEAR,
+  copyrightNotice: `${COPYRIGHT_NOTICE} ${THIRD_PARTY_NOTICE}`,
+  license: `${SITE.url}/license`,
+};
+
 const orgSchema = {
-  "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "@id": `${SITE.url}#organization`,
   name: SITE.name,
@@ -107,7 +139,12 @@ export default function RootLayout({
         </QuoteCartProvider>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [copyrightHolder, websiteSchema, orgSchema],
+            }),
+          }}
         />
       </body>
     </html>

@@ -1,5 +1,6 @@
 import { SITE, LOCATIONS } from "@/lib/site";
 import { CATEGORIES } from "@/lib/equipment";
+import { COPYRIGHT_NOTICE, THIRD_PARTY_NOTICE } from "@/components/Copyright";
 
 export const dynamic = "force-static";
 
@@ -38,6 +39,11 @@ ${categories}
 - Quote / reservation form: ${SITE.url}/quote
 - About: ${SITE.url}/about
 - Contact: ${SITE.url}/contact
+- License & copyright: ${SITE.url}/license
+
+## Copyright
+${COPYRIGHT_NOTICE}
+${THIRD_PARTY_NOTICE}
 `;
 
   return new Response(body, {
